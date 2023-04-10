@@ -9,13 +9,13 @@ import (
 	"github.com/workos/workos-go/v2/pkg/directorysync"
 )
 
-func tableWorkOSGroup(ctx context.Context) *plugin.Table {
+func tableWorkOSUser(ctx context.Context) *plugin.Table {
 	return &plugin.Table{
-		Name:        "workos_group",
-		Description: "Retrieve information about your groups.",
+		Name:        "workos_user",
+		Description: "Retrieve information about your users.",
 		List: &plugin.ListConfig{
 			ParentHydrate: listDirectories,
-			Hydrate:       listGroups,
+			Hydrate:       listUsers,
 			KeyColumns: []*plugin.KeyColumn{
 				{
 					Name:    "directory_id",
@@ -25,24 +25,30 @@ func tableWorkOSGroup(ctx context.Context) *plugin.Table {
 		},
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"),
-			Hydrate:    getGroup,
+			Hydrate:    getUser,
 		},
 		Columns: []*plugin.Column{
 			{
 				Name:        "id",
 				Type:        proto.ColumnType_STRING,
-				Description: "The Group's unique identifier.",
+				Description: "The User's unique identifier.",
 				Transform:   transform.FromField("ID"),
 			},
 			{
-				Name:        "name",
+				Name:        "user_name",
 				Type:        proto.ColumnType_STRING,
-				Description: "The Group's name.",
+				Description: "The User's username.",
+				Transform:   transform.FromField("Username"),
+			},
+			{
+				Name:        "state",
+				Type:        proto.ColumnType_STRING,
+				Description: "The User's state.",
 			},
 			{
 				Name:        "directory_id",
 				Type:        proto.ColumnType_STRING,
-				Description: "The identifier of the Directory the group belongs to.",
+				Description: "The identifier of the Directory the Directory User belongs to.",
 				Transform:   transform.FromField("DirectoryID"),
 			},
 			{
@@ -54,29 +60,59 @@ func tableWorkOSGroup(ctx context.Context) *plugin.Table {
 			{
 				Name:        "created_at",
 				Type:        proto.ColumnType_TIMESTAMP,
-				Description: "The Group's created at date.",
+				Description: "The User's created at date.",
+			},
+			{
+				Name:        "first_name",
+				Type:        proto.ColumnType_STRING,
+				Description: "The User's first name.",
 			},
 			{
 				Name:        "idp_id",
 				Type:        proto.ColumnType_STRING,
-				Description: "The Group's unique identifier assigned by the Directory Provider.",
+				Description: "The User's unique identifier assigned by the Directory Provider.",
 				Transform:   transform.FromField("IdpID"),
+			},
+			{
+				Name:        "job_title",
+				Type:        proto.ColumnType_STRING,
+				Description: "The User's job title.",
+			},
+			{
+				Name:        "last_name",
+				Type:        proto.ColumnType_STRING,
+				Description: "The User's last name.",
 			},
 			{
 				Name:        "updated_at",
 				Type:        proto.ColumnType_TIMESTAMP,
-				Description: "The Group's updated at date.",
+				Description: "The User's updated at date.",
+			},
+			{
+				Name:        "custom_attributes",
+				Type:        proto.ColumnType_JSON,
+				Description: "The User's custom attributes in raw encoded JSON.",
+			},
+			{
+				Name:        "emails",
+				Type:        proto.ColumnType_JSON,
+				Description: "The User's e-mails.",
+			},
+			{
+				Name:        "groups",
+				Type:        proto.ColumnType_JSON,
+				Description: "The User's groups.",
 			},
 			{
 				Name:        "raw_attributes",
 				Type:        proto.ColumnType_JSON,
-				Description: "The Group's raw attributes in raw encoded JSON.",
+				Description: "The User's raw attributes in raw encoded JSON.",
 			},
 		},
 	}
 }
 
-func listGroups(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
+func listUsers(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
 	dir := h.Item.(directorysync.Directory)
 	directory_id := d.EqualsQuals["directory_id"].GetStringValue()
 
@@ -87,7 +123,7 @@ func listGroups(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData)
 
 	apiKey, err := getAPIKey(ctx, d)
 	if err != nil {
-		plugin.Logger(ctx).Error("workos_group.listGroups", "connection_error", err)
+		plugin.Logger(ctx).Error("workos_user.listUsers", "connection_error", err)
 		return nil, err
 	}
 	directorysync.SetAPIKey(*apiKey)
@@ -101,27 +137,27 @@ func listGroups(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData)
 		}
 	}
 
-	input := directorysync.ListGroupsOpts{
+	input := directorysync.ListUsersOpts{
 		Limit:     maxLimit,
 		Directory: dir.ID,
 	}
 
 	for {
-		groupList, err := directorysync.ListGroups(ctx, input)
+		userList, err := directorysync.ListUsers(ctx, input)
 		if err != nil {
-			plugin.Logger(ctx).Error("workos_group.listGroups", "api_error", err)
+			plugin.Logger(ctx).Error("workos_user.listUsers", "api_error", err)
 			return nil, err
 		}
-		for _, group := range groupList.Data {
-			d.StreamListItem(ctx, group)
+		for _, user := range userList.Data {
+			d.StreamListItem(ctx, user)
 
 			// Context can be cancelled due to manual cancellation or the limit has been hit
 			if d.RowsRemaining(ctx) == 0 {
 				return nil, nil
 			}
 		}
-		if groupList.ListMetadata.Before != "" {
-			input.Before = groupList.ListMetadata.Before
+		if userList.ListMetadata.Before != "" {
+			input.Before = userList.ListMetadata.Before
 		} else {
 			break
 		}
@@ -130,7 +166,7 @@ func listGroups(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData)
 	return nil, nil
 }
 
-func getGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+func getUser(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	id := d.EqualsQuals["id"].GetStringValue()
 
 	// Check if id is empty.
@@ -140,20 +176,20 @@ func getGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (
 
 	apiKey, err := getAPIKey(ctx, d)
 	if err != nil {
-		plugin.Logger(ctx).Error("workos_group.getGroup", "connection_error", err)
+		plugin.Logger(ctx).Error("workos_user.getUser", "connection_error", err)
 		return nil, err
 	}
+
 	directorysync.SetAPIKey(*apiKey)
-
-	input := directorysync.GetGroupOpts{
-		Group: id,
+	input := directorysync.GetUserOpts{
+		User: id,
 	}
 
-	group, err := directorysync.GetGroup(ctx, input)
+	user, err := directorysync.GetUser(ctx, input)
 	if err != nil {
-		plugin.Logger(ctx).Error("workos_group.getGroup", "api_error", err)
+		plugin.Logger(ctx).Error("workos_user.getUser", "api_error", err)
 		return nil, err
 	}
 
-	return group, nil
+	return user, nil
 }

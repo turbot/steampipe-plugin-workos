@@ -12,9 +12,23 @@ import (
 func tableWorkOSDirectory(ctx context.Context) *plugin.Table {
 	return &plugin.Table{
 		Name:        "workos_directory",
-		Description: "Retrieve information about your Directories.",
+		Description: "Retrieve information about your directories.",
 		List: &plugin.ListConfig{
 			Hydrate: listDirectories,
+			KeyColumns: []*plugin.KeyColumn{
+				{
+					Name:    "domain",
+					Require: plugin.Optional,
+				},
+				{
+					Name:    "name",
+					Require: plugin.Optional,
+				},
+				{
+					Name:    "organization_id",
+					Require: plugin.Optional,
+				},
+			},
 		},
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"),
@@ -81,7 +95,7 @@ func tableWorkOSDirectory(ctx context.Context) *plugin.Table {
 func listDirectories(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	apiKey, err := getAPIKey(ctx, d)
 	if err != nil {
-		plugin.Logger(ctx).Error("listDirectories", "connection_error", err)
+		plugin.Logger(ctx).Error("workos_directory.listDirectories", "connection_error", err)
 		return nil, err
 	}
 	directorysync.SetAPIKey(*apiKey)
@@ -91,11 +105,7 @@ func listDirectories(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	if d.QueryContext.Limit != nil {
 		limit := int(*d.QueryContext.Limit)
 		if limit < maxLimit {
-			if limit < 1 {
-				maxLimit = 1
-			} else {
-				maxLimit = limit
-			}
+			maxLimit = limit
 		}
 	}
 
@@ -103,10 +113,20 @@ func listDirectories(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 		Limit: maxLimit,
 	}
 
+	if d.EqualsQuals["domain"] != nil {
+		input.Domain = d.EqualsQuals["domain"].GetStringValue()
+	}
+	if d.EqualsQuals["name"] != nil {
+		input.Search = d.EqualsQuals["name"].GetStringValue()
+	}
+	if d.EqualsQuals["organization_id"] != nil {
+		input.OrganizationID = d.EqualsQuals["organization_id"].GetStringValue()
+	}
+
 	for {
 		dirList, err := directorysync.ListDirectories(ctx, input)
 		if err != nil {
-			plugin.Logger(ctx).Error("listDirectories", "api_error", err)
+			plugin.Logger(ctx).Error("workos_directory.listDirectories", "api_error", err)
 			return nil, err
 		}
 		for _, dir := range dirList.Data {
@@ -137,17 +157,18 @@ func getDirectory(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 
 	apiKey, err := getAPIKey(ctx, d)
 	if err != nil {
-		plugin.Logger(ctx).Error("getDirectory", "connection_error", err)
+		plugin.Logger(ctx).Error("workos_directory.getDirectory", "connection_error", err)
 		return nil, err
 	}
-
 	directorysync.SetAPIKey(*apiKey)
+
 	input := directorysync.GetDirectoryOpts{
 		Directory: id,
 	}
+
 	dir, err := directorysync.GetDirectory(ctx, input)
 	if err != nil {
-		plugin.Logger(ctx).Error("getDirectory", "api_error", err)
+		plugin.Logger(ctx).Error("workos_directory.getDirectory", "api_error", err)
 		return nil, err
 	}
 

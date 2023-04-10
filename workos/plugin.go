@@ -12,17 +12,19 @@ func Plugin(ctx context.Context) *plugin.Plugin {
 	p := &plugin.Plugin{
 		Name:             "steampipe-plugin-workos",
 		DefaultTransform: transform.FromCamel(),
-		// DefaultIgnoreConfig: &plugin.IgnoreConfig{
-		// 	ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"404"}),
-		// },
+		DefaultIgnoreConfig: &plugin.IgnoreConfig{
+			ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"404"}),
+		},
 		ConnectionConfigSchema: &plugin.ConnectionConfigSchema{
 			NewInstance: ConfigInstance,
 			Schema:      ConfigSchema,
 		},
 		TableMap: map[string]*plugin.Table{
-			"workos_organization": tableWorkOSOrganization(ctx),
+			"workos_connection":   tableWorkOSConnection(ctx),
 			"workos_directory":    tableWorkOSDirectory(ctx),
 			"workos_group":        tableWorkOSGroup(ctx),
+			"workos_organization": tableWorkOSOrganization(ctx),
+			"workos_user":         tableWorkOSUser(ctx),
 		},
 	}
 	return p

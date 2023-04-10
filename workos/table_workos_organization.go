@@ -12,7 +12,7 @@ import (
 func tableWorkOSOrganization(ctx context.Context) *plugin.Table {
 	return &plugin.Table{
 		Name:        "workos_organization",
-		Description: "Retrieve information about your Organizations.",
+		Description: "Retrieve information about your organizations.",
 		List: &plugin.ListConfig{
 			Hydrate: listOrganizations,
 		},
@@ -59,7 +59,7 @@ func tableWorkOSOrganization(ctx context.Context) *plugin.Table {
 func listOrganizations(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	apiKey, err := getAPIKey(ctx, d)
 	if err != nil {
-		plugin.Logger(ctx).Error("listOrganizations", "connection_error", err)
+		plugin.Logger(ctx).Error("workos_organization.listOrganizations", "connection_error", err)
 		return nil, err
 	}
 	organizations.SetAPIKey(*apiKey)
@@ -69,11 +69,7 @@ func listOrganizations(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	if d.QueryContext.Limit != nil {
 		limit := int(*d.QueryContext.Limit)
 		if limit < maxLimit {
-			if limit < 1 {
-				maxLimit = 1
-			} else {
-				maxLimit = limit
-			}
+			maxLimit = limit
 		}
 	}
 
@@ -84,7 +80,7 @@ func listOrganizations(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	for {
 		orgList, err := organizations.ListOrganizations(ctx, input)
 		if err != nil {
-			plugin.Logger(ctx).Error("listOrganizations", "api_error", err)
+			plugin.Logger(ctx).Error("workos_organization.listOrganizations", "api_error", err)
 			return nil, err
 		}
 		for _, org := range orgList.Data {
@@ -115,17 +111,18 @@ func getOrganization(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 
 	apiKey, err := getAPIKey(ctx, d)
 	if err != nil {
-		plugin.Logger(ctx).Error("getOrganization", "connection_error", err)
+		plugin.Logger(ctx).Error("workos_organization.getOrganization", "connection_error", err)
 		return nil, err
 	}
-
 	organizations.SetAPIKey(*apiKey)
+
 	input := organizations.GetOrganizationOpts{
 		Organization: id,
 	}
+
 	org, err := organizations.GetOrganization(ctx, input)
 	if err != nil {
-		plugin.Logger(ctx).Error("getOrganization", "api_error", err)
+		plugin.Logger(ctx).Error("workos_organization.getOrganization", "api_error", err)
 		return nil, err
 	}
 

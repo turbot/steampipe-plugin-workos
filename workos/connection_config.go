@@ -3,7 +3,9 @@ package workos
 import (
 	"context"
 	"errors"
+	"os"
 
+	"github.com/turbot/go-kit/types"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/schema"
 )
@@ -34,9 +36,15 @@ func GetConfig(connection *plugin.Connection) workosConfig {
 func getAPIKey(ctx context.Context, d *plugin.QueryData) (*string, error) {
 	workosConfig := GetConfig(d.Connection)
 
+	apiKey := os.Getenv("WORKOS_API_KEY")
+
 	if workosConfig.APIKey != nil {
-		return workosConfig.APIKey, nil
+		apiKey = *workosConfig.APIKey
 	}
 
-	return nil, errors.New("'api_key' or ('email' and 'password') must be set in the connection configuration. Edit your connection configuration file and then restart Steampipe")
+	if apiKey != "" {
+		return types.String(apiKey), nil
+	}
+
+	return nil, errors.New("'api_key' must be set in the connection configuration. Edit your connection configuration file and then restart Steampipe.")
 }
