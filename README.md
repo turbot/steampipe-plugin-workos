@@ -2,7 +2,7 @@
 
 # WorkOS Plugin for Steampipe
 
-Use SQL to query monitors, alert contacts and more from WorkOS.
+Use SQL to query directories, groups and more from WorkOS.
 
 - **[Get started →](https://hub.steampipe.io/plugins/turbot/workos)**
 - Documentation: [Table definitions & examples](https://hub.steampipe.io/plugins/turbot/workos/tables)
