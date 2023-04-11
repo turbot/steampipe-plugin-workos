@@ -88,6 +88,14 @@ func tableWorkOSDirectory(ctx context.Context) *plugin.Table {
 				Type:        proto.ColumnType_TIMESTAMP,
 				Description: "The timestamp of when the Directory was updated.",
 			},
+
+			/// Steampipe standard columns
+			{
+				Name:        "title",
+				Description: "Title of the resource.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("name"),
+			},
 		},
 	}
 }
