@@ -2,7 +2,7 @@
 organization: Turbot
 category: ["software development"]
 icon_url: "/images/plugins/turbot/workos.svg"
-brand_color: "#6495ED"
+brand_color: "#6363F1"
 display_name: "WorkOS"
 short_name: "workos"
 description: "Steampipe plugin to query directories, groups and more from WorkOS."
