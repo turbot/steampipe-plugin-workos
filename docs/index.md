@@ -16,7 +16,7 @@ og_image: "/images/plugins/turbot/workos-social-graphic.png"
 
 [Steampipe](https://steampipe.io) is an open source CLI to instantly query cloud APIs using SQL.
 
-Get WorkOS organization details:
+List your WorkOS organizations:
 
 ```sql
 select
@@ -41,7 +41,7 @@ from
 
 - **[Table definitions & examples →](/plugins/turbot/workos/tables)**
 
-## Get started
+## Quick start
 
 ### Install
 
@@ -50,6 +50,15 @@ Download and install the latest WorkOS plugin:
 ```bash
 steampipe plugin install workos
 ```
+
+### Credentials
+
+| Item        | Description                                                                                                                                                                 |
+| ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Credentials | WorkOS requires an [API Key](https://workos.com/docs/reference/api-keys) for all requests.                                                                                  |
+| Permissions | API keys have the same permissions as the user who creates them, and if the user permissions change, the API key permissions also change.                                   |
+| Radius      | Each connection represents a single WorkOS Installation.                                                                                                                    |
+| Resolution  | 1. Credentials explicitly set in a steampipe config file (`~/.steampipe/config/workos.spc`)<br />2. Credentials specified in environment variables, e.g., `WORKOS_API_KEY`. |
 
 ### Configuration
 
@@ -66,7 +75,28 @@ connection "workos" {
 }
 ```
 
-- `api_key` - WorkOS API key. Can also be set with the `WORKOS_API_KEY` environment variable.
+## Configuring Sentry Credentials
+
+### API Key Credentials
+
+You may specify the API Key to authenticate:
+
+- `api_key` - WorkOS API key.
+
+```hcl
+connection "workos" {
+  plugin   = "workos"
+  api_key  = "sk_test_a2V5XzAxR1g1QjNDRTFCU1NYSEhZMktINjVWTUFSLHBUSm1pWGpVMnV6dDNK"
+}
+```
+
+### Credentials from Environment Variables
+
+The WorkOS plugin will use the WorkOS environment variable to obtain credentials **only if the `api_key` is not specified** in the connection:
+
+```sh
+export WORKOS_API_KEY="sk_test_a2V5XzAxR1g1QjNDRTFCU1NYSEhZMktINjVWTUFSLHBUSm1pWGpVMnV6dDNK"
+```
 
 ## Get involved
 
