@@ -122,7 +122,7 @@ func tableWorkOSUser(ctx context.Context) *plugin.Table {
 
 func listUsers(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
 	dir := h.Item.(directorysync.Directory)
-	directory_id := d.EqualsQuals["directory_id"].GetStringValue()
+	directory_id := d.EqualsQualString("directory_id")
 
 	// check if the provided directory_id is not matching with the parentHydrate
 	if directory_id != "" && directory_id != dir.ID {
@@ -175,7 +175,7 @@ func listUsers(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) 
 }
 
 func getUser(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
-	id := d.EqualsQuals["id"].GetStringValue()
+	id := d.EqualsQualString("id")
 
 	// Check if id is empty.
 	if id == "" {

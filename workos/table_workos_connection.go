@@ -106,11 +106,11 @@ func listConnections(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 		Limit: maxLimit,
 	}
 
-	if d.EqualsQuals["connection_type"] != nil {
-		input.ConnectionType = sso.ConnectionType(d.EqualsQuals["connection_type"].GetStringValue())
+	if d.EqualsQualString("connection_type") != "" {
+		input.ConnectionType = sso.ConnectionType(d.EqualsQualString("connection_type"))
 	}
-	if d.EqualsQuals["organization_id"] != nil {
-		input.OrganizationID = d.EqualsQuals["organization_id"].GetStringValue()
+	if d.EqualsQualString("organization_id") != "" {
+		input.OrganizationID = d.EqualsQualString("organization_id")
 	}
 
 	for {
@@ -138,7 +138,7 @@ func listConnections(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 }
 
 func getConnection(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
-	id := d.EqualsQuals["id"].GetStringValue()
+	id := d.EqualsQualString("id")
 
 	// Check if id is empty.
 	if id == "" {

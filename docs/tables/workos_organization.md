@@ -17,7 +17,7 @@ from
   workos_organization;
 ```
 
-### List organizations which allowed outside profiles
+### List organizations that allow outside profiles
 
 ```sql
 select

@@ -121,14 +121,14 @@ func listDirectories(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 		Limit: maxLimit,
 	}
 
-	if d.EqualsQuals["domain"] != nil {
-		input.Domain = d.EqualsQuals["domain"].GetStringValue()
+	if d.EqualsQualString("domain") != "" {
+		input.Domain = d.EqualsQualString("domain")
 	}
-	if d.EqualsQuals["name"] != nil {
-		input.Search = d.EqualsQuals["name"].GetStringValue()
+	if d.EqualsQualString("name") != "" {
+		input.Search = d.EqualsQualString("name")
 	}
-	if d.EqualsQuals["organization_id"] != nil {
-		input.OrganizationID = d.EqualsQuals["organization_id"].GetStringValue()
+	if d.EqualsQualString("organization_id") != "" {
+		input.OrganizationID = d.EqualsQualString("organization_id")
 	}
 
 	for {
@@ -156,7 +156,7 @@ func listDirectories(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 }
 
 func getDirectory(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
-	id := d.EqualsQuals["id"].GetStringValue()
+	id := d.EqualsQualString("id")
 
 	// Check if id is empty.
 	if id == "" {
