@@ -56,7 +56,7 @@ func tableWorkOSConnection(ctx context.Context) *plugin.Table {
 			{
 				Name:        "created_at",
 				Type:        proto.ColumnType_TIMESTAMP,
-				Description: "The timestamp of when the Connection was created.",
+				Description: "The timestamp of when the connection was created.",
 			},
 			{
 				Name:        "connection_type",
@@ -66,12 +66,12 @@ func tableWorkOSConnection(ctx context.Context) *plugin.Table {
 			{
 				Name:        "updated_at",
 				Type:        proto.ColumnType_TIMESTAMP,
-				Description: "The timestamp of when the Connection was updated.",
+				Description: "The timestamp of when the connection was updated.",
 			},
 			{
 				Name:        "domains",
 				Type:        proto.ColumnType_JSON,
-				Description: "Domain records for the Connection.",
+				Description: "Domain records for the connection.",
 			},
 
 			/// Steampipe standard columns

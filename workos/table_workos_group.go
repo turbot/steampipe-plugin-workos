@@ -42,13 +42,13 @@ func tableWorkOSGroup(ctx context.Context) *plugin.Table {
 			{
 				Name:        "directory_id",
 				Type:        proto.ColumnType_STRING,
-				Description: "The identifier of the Directory the group belongs to.",
+				Description: "The identifier of the directory the group belongs to.",
 				Transform:   transform.FromField("DirectoryID"),
 			},
 			{
 				Name:        "organization_id",
 				Type:        proto.ColumnType_STRING,
-				Description: "The identifier for the Organization in which the Directory resides.",
+				Description: "The identifier for the organization in which the directory resides.",
 				Transform:   transform.FromField("OrganizationID"),
 			},
 			{
@@ -59,7 +59,7 @@ func tableWorkOSGroup(ctx context.Context) *plugin.Table {
 			{
 				Name:        "idp_id",
 				Type:        proto.ColumnType_STRING,
-				Description: "The Group's unique identifier assigned by the Directory Provider.",
+				Description: "The Group's unique identifier assigned by the directory provider.",
 				Transform:   transform.FromField("IdpID"),
 			},
 			{

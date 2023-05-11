@@ -49,18 +49,18 @@ func tableWorkOSDirectory(ctx context.Context) *plugin.Table {
 			{
 				Name:        "state",
 				Type:        proto.ColumnType_STRING,
-				Description: "Linked status for the Directory.",
+				Description: "Linked status for the directory.",
 			},
 			{
 				Name:        "organization_id",
 				Type:        proto.ColumnType_STRING,
-				Description: "Identifier for the Directory's Organization.",
+				Description: "Identifier for the directory's organization.",
 				Transform:   transform.FromField("OrganizationID"),
 			},
 			{
 				Name:        "created_at",
 				Type:        proto.ColumnType_TIMESTAMP,
-				Description: "The timestamp of when the Directory was created.",
+				Description: "The timestamp of when the directory was created.",
 			},
 			{
 				Name:        "domain",
@@ -70,12 +70,12 @@ func tableWorkOSDirectory(ctx context.Context) *plugin.Table {
 			{
 				Name:        "external_key",
 				Type:        proto.ColumnType_STRING,
-				Description: "Externally used identifier for the Directory.",
+				Description: "Externally used identifier for the directory.",
 			},
 			{
 				Name:        "idp_id",
 				Type:        proto.ColumnType_STRING,
-				Description: "The user's directory provider's Identifier.",
+				Description: "The user's directory provider's identifier.",
 				Transform:   transform.FromField("IdpID"),
 			},
 			{
@@ -86,7 +86,7 @@ func tableWorkOSDirectory(ctx context.Context) *plugin.Table {
 			{
 				Name:        "updated_at",
 				Type:        proto.ColumnType_TIMESTAMP,
-				Description: "The timestamp of when the Directory was updated.",
+				Description: "The timestamp of when the directory was updated.",
 			},
 
 			/// Steampipe standard columns

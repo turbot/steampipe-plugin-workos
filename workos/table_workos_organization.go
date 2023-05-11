@@ -35,22 +35,22 @@ func tableWorkOSOrganization(ctx context.Context) *plugin.Table {
 			{
 				Name:        "allow_profiles_outside_organization",
 				Type:        proto.ColumnType_BOOL,
-				Description: "Whether Connections within the Organization allow profiles that are outside of the Organization's configured User Email Domains.",
+				Description: "Whether connections within the organization allow profiles that are outside of the organization's configured user email domains.",
 			},
 			{
 				Name:        "created_at",
 				Type:        proto.ColumnType_TIMESTAMP,
-				Description: "The timestamp of when the Organization was created.",
+				Description: "The timestamp of when the organization was created.",
 			},
 			{
 				Name:        "updated_at",
 				Type:        proto.ColumnType_TIMESTAMP,
-				Description: "The timestamp of when the Organization was updated.",
+				Description: "The timestamp of when the organization was updated.",
 			},
 			{
 				Name:        "domains",
 				Type:        proto.ColumnType_JSON,
-				Description: "The Organization's Domains.",
+				Description: "The organization's domains.",
 			},
 
 			/// Steampipe standard columns
