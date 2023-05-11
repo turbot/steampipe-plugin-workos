@@ -50,3 +50,18 @@ where
   g.directory_id = d.id
   and d.name = 'test';
 ```
+
+### List groups created in the last 30 days
+
+```sql
+select
+  id,
+  name,
+  directory_id,
+  organization_id,
+  created_at
+from
+  workos_group
+where
+  created_at >= now() - interval '30' day;
+```

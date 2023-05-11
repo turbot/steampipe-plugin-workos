@@ -46,3 +46,18 @@ from
 where
   name = 'test';
 ```
+
+### List organizations created in the last 30 days
+
+```sql
+select
+  id,
+  name,
+  allow_profiles_outside_organization,
+  created_at,
+  updated_at
+from
+  workos_organization
+where
+  created_at >= now() - interval '30' day;
+```

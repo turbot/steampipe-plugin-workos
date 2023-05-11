@@ -67,3 +67,19 @@ from
 where
   connection_type like 'Azure%';
 ```
+
+### List connections created in the last 30 days
+
+```sql
+select
+  id,
+  name,
+  state,
+  organization_id,
+  created_at,
+  connection_type
+from
+  workos_connection
+where
+  created_at >= now() - interval '30' day;
+```

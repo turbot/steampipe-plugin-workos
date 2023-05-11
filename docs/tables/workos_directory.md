@@ -69,3 +69,19 @@ from
 where
   type = 'gsuite directory';
 ```
+
+### List directories created in the last 30 days
+
+```sql
+select
+  id,
+  name,
+  state,
+  organization_id,
+  created_at,
+  domain
+from
+  workos_directory
+where
+  created_at >= now() - interval '30' day;
+```
