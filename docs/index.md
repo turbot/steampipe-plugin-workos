@@ -56,7 +56,7 @@ steampipe plugin install workos
 | Item        | Description                                                                                                                                                                 |
 | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Credentials | WorkOS requires an [API Key](https://workos.com/docs/reference/api-keys) for all requests.                                                                                  |
-| Permissions | API keys have the same permissions as the user who creates them, and if the user permissions change, the API key permissions also change.                                   |
+| Permissions | API keys have the same permission as the user who creates them, and if the user permissions change, the API key permissions also change.                                   |
 | Radius      | Each connection represents a single WorkOS Installation.                                                                                                                    |
 | Resolution  | 1. Credentials explicitly set in a steampipe config file (`~/.steampipe/config/workos.spc`)<br />2. Credentials specified in environment variables, e.g., `WORKOS_API_KEY`. |
 
@@ -75,27 +75,10 @@ connection "workos" {
 }
 ```
 
-## Configuring WorkOS Credentials
-
-### API Key Credentials
-
-You may specify the API Key to authenticate:
-
-- `api_key` - WorkOS API key.
-
-```hcl
-connection "workos" {
-  plugin   = "workos"
-  api_key  = "sk_test_a2V5XzAxR1g1QjNDRTFCU1NYSEhZMktINjVWTUFSLHBUSm1pWGpVMnV6dDNK"
-}
-```
-
-### Credentials from Environment Variables
-
-The WorkOS plugin will use the WorkOS environment variable to obtain credentials **only if the `api_key` is not specified** in the connection:
+Alternatively, you can also use the standard WorkOS environment variables to obtain credentials **only if other argument (`api_key`) is not specified** in the connection:
 
 ```sh
-export WORKOS_API_KEY="sk_test_a2V5XzAxR1g1QjNDRTFCU1NYSEhZMktINjVWTUFSLHBUSm1pWGpVMnV6dDNK"
+export WORKOS_API_KEY=sk_test_a2V5XzAxR1g1QjNDRTFCU1NYSEhZMktINjVWTUFSLHBUSm1pWGpVMnV6dDNK
 ```
 
 ## Get involved

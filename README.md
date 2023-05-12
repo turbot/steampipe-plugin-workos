@@ -19,18 +19,12 @@ steampipe plugin install workos
 
 Configure your [credentials](https://hub.steampipe.io/plugins/turbot/workos#credentials) and [config file](https://hub.steampipe.io/plugins/turbot/workos#configuration).
 
-### Configuring WorkOS Credentials
-
 Configure the API key in `~/.steampipe/config/workos.spc`:
-
-You may specify the API Key to authenticate:
-
-- `api_key` - WorkOS API key.
 
 ```hcl
 connection "workos" {
-  plugin   = "workos"
-  api_key  = "sk_test_a2V5XzAxR1g1QjNDRTFCU1NYSEhZMktINjVWTUFSLHBUSm1pWGpVMnV6dDNK"
+  # Authentication information
+  api_key   = "sk_test_a2V5XzAxR1g1QjNDRTFCU1NYSEhZMktINjVWTUFSLHBUSm1pWGpVMnV6dDNK"
 }
 ```
 
