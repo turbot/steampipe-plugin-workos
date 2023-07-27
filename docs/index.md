@@ -84,4 +84,4 @@ export WORKOS_API_KEY=sk_test_a2V5XzAxR1g1QjNDRTFCU1NYSEhZMktINjVWTUFSLHBUSm1pWG
 ## Get involved
 
 - Open source: https://github.com/turbot/steampipe-plugin-workos
-- Community: [Slack Channel](https://steampipe.io/community/join)
+- Community: [Join #steampipe on Slack →](https://turbot.com/community/join)
