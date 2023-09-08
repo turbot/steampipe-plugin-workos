@@ -5,7 +5,7 @@ go 1.19
 require (
 	github.com/turbot/go-kit v0.5.0
 	github.com/turbot/steampipe-plugin-sdk/v5 v5.4.1
-	github.com/workos/workos-go/v2 v2.1.0
+	github.com/workos/workos-go/v2 v2.2.2
 )
 
 require (
