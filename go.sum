@@ -413,8 +413,8 @@ github.com/turbot/steampipe-plugin-sdk/v5 v5.4.1 h1:1d2Rt4SH9D/lnLhi7e7Zhv6d7OX8
 github.com/turbot/steampipe-plugin-sdk/v5 v5.4.1/go.mod h1:bfvdKaLwemr13EPOMbnr7/hOQOO7m4oM7HnVMdNotgY=
 github.com/ulikunitz/xz v0.5.8 h1:ERv8V6GKqVi23rgu5cj9pVfVzJbOqAY2Ntl88O6c2nQ=
 github.com/ulikunitz/xz v0.5.8/go.mod h1:nbz6k7qbPmH4IRqmfOplQw/tblSgqTqBwxkY0oWt/14=
-github.com/workos/workos-go/v2 v2.1.0 h1:eZotGtDL1tw6Oq9CazlR+AMg//eBDX23bdfT616Pf8o=
-github.com/workos/workos-go/v2 v2.1.0/go.mod h1:5702ja1jMGArYgqS0lCowTNltHmYCJ8Uf4Iu2e+VNyw=
+github.com/workos/workos-go/v2 v2.2.2 h1:SnJQ69Yf4ioKGQMr6x7NMpn+NaFxgmBpANo/OwxSU3U=
+github.com/workos/workos-go/v2 v2.2.2/go.mod h1:5702ja1jMGArYgqS0lCowTNltHmYCJ8Uf4Iu2e+VNyw=
 github.com/yuin/goldmark v1.1.25/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
 github.com/yuin/goldmark v1.1.27/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
 github.com/yuin/goldmark v1.1.32/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
