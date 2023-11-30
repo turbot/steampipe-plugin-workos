@@ -1,10 +1,20 @@
-# Table: workos_group
+---
+title: "Steampipe Table: workos_group - Query OCI WorkOS Groups using SQL"
+description: "Allows users to query WorkOS Groups, providing details such as group ID, name, description, and associated users."
+---
 
-A Directory Group represents an Enterprise organizational unit of users. Developers can receive Webhooks as groups are added, updated, or removed, allowing for group-based resource access.
+# Table: workos_group - Query OCI WorkOS Groups using SQL
+
+WorkOS is a service that allows developers to implement enterprise-level features into their applications. It provides functionalities such as Single Sign-On (SSO), Directory Sync, and Audit Trail, making it easier to manage and secure applications. A WorkOS Group is a collection of users from an organization's identity provider that can be managed as a single entity.
+
+## Table Usage Guide
+
+The `workos_group` table provides insights into WorkOS Groups within OCI WorkOS. As a developer or IT administrator, explore details about each group through this table, including group ID, name, description, and associated users. Utilize it to manage and organize users effectively, ensuring appropriate access control and security within your application.
 
 ## Examples
 
 ### Basic info
+Explore which groups have been created within your organization, including their unique identifiers and the time of creation. This can help you keep track of group formation and understand the structure of your organization over time.
 
 ```sql
 select
@@ -18,6 +28,7 @@ from
 ```
 
 ### List groups of a particular organization
+Explore which groups belong to a specific organization. This is useful to understand the structure and distribution of groups within that organization, providing insights for management and organizational planning.
 
 ```sql
 select
@@ -35,6 +46,7 @@ where
 ```
 
 ### List groups of a particular directory
+Explore which groups belong to a specific directory to better manage and organize your resources. This can be particularly useful in identifying and sorting groups for administrative or security purposes.
 
 ```sql
 select
@@ -52,6 +64,7 @@ where
 ```
 
 ### List groups created in the last 30 days
+Explore groups that have been established within the past month. This can be beneficial for understanding recent organizational changes or additions.
 
 ```sql
 select
