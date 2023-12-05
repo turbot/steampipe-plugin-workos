@@ -16,7 +16,19 @@ The `workos_connection` table provides insights into SSO connections within Work
 ### Basic info
 Explore which connections are active within your organization by identifying the specific instances and their creation dates. This can help assess the overall usage and manage resources effectively.
 
-```sql
+```sql+postgres
+select
+  id,
+  name,
+  state,
+  organization_id,
+  created_at,
+  connection_type
+from
+  workos_connection;
+```
+
+```sql+sqlite
 select
   id,
   name,
@@ -31,7 +43,21 @@ from
 ### List inactive connections
 Determine the areas in which your WorkOS connections are inactive. This can help you manage resources more efficiently by identifying unused connections and potentially reassigning them.
 
-```sql
+```sql+postgres
+select
+  id,
+  name,
+  state,
+  organization_id,
+  created_at,
+  connection_type
+from
+  workos_connection
+where
+  state = 'inactive';
+```
+
+```sql+sqlite
 select
   id,
   name,
@@ -48,7 +74,7 @@ where
 ### List connections of a particular organization
 Explore which connections are associated with a specific organization to better manage and monitor your organizational resources. This can be particularly useful in identifying potential bottlenecks or inefficiencies within your organization's network.
 
-```sql
+```sql+postgres
 select
   c.id as connection_id,
   c.name as connection_name,
@@ -64,10 +90,42 @@ where
   and o.name = 'test';
 ```
 
+```sql+sqlite
+select
+  c.id as connection_id,
+  c.name as connection_name,
+  c.state,
+  c.organization_id,
+  c.created_at,
+  c.connection_type
+from
+  workos_connection as c
+join
+  workos_organization as o
+on
+  c.organization_id = o.id
+where
+  o.name = 'test';
+```
+
 ### List azure based connections
 Explore which connections are based on Azure within your organization. This can be useful for assessing the prevalence and usage of Azure services in your network.
 
-```sql
+```sql+postgres
+select
+  id,
+  name,
+  state,
+  organization_id,
+  created_at,
+  connection_type
+from
+  workos_connection
+where
+  connection_type like 'Azure%';
+```
+
+```sql+sqlite
 select
   id,
   name,
@@ -84,7 +142,7 @@ where
 ### List connections created in the last 30 days
 Discover the connections that were established in the recent month. This is useful for monitoring recent activity and understanding your organization's interaction patterns.
 
-```sql
+```sql+postgres
 select
   id,
   name,
@@ -96,4 +154,18 @@ from
   workos_connection
 where
   created_at >= now() - interval '30' day;
+```
+
+```sql+sqlite
+select
+  id,
+  name,
+  state,
+  organization_id,
+  created_at,
+  connection_type
+from
+  workos_connection
+where
+  created_at >= datetime('now','-30 day');
 ```

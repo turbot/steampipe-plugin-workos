@@ -16,7 +16,18 @@ The `workos_organization` table provides insights into organizations managed by 
 ### Basic info
 Explore the settings of your organization to understand whether profiles from outside the organization are permitted, and assess when these settings were last updated. This is useful for maintaining security and ensuring only authorized profiles have access.
 
-```sql
+```sql+postgres
+select
+  id,
+  name,
+  allow_profiles_outside_organization,
+  created_at,
+  updated_at
+from
+  workos_organization;
+```
+
+```sql+sqlite
 select
   id,
   name,
@@ -30,7 +41,7 @@ from
 ### List organizations that allow outside profiles
 Explore which organizations permit profiles from outside their own, providing insights into their openness to external collaboration. This can assist in identifying potential partners or assessing the openness of your competitive landscape.
 
-```sql
+```sql+postgres
 select
   id,
   name,
@@ -43,12 +54,25 @@ where
   allow_profiles_outside_organization;
 ```
 
+```sql+sqlite
+select
+  id,
+  name,
+  allow_profiles_outside_organization,
+  created_at,
+  updated_at
+from
+  workos_organization
+where
+  allow_profiles_outside_organization = 1;
+```
+
 ### List domains of a particular organization
 Explore which domains are associated with a specific organization to better manage or monitor the organization's online presence and activities. This is especially useful for IT administrators or cybersecurity professionals who need to keep track of all the domains under an organization's purview.
 
-```sql
+```sql+postgres
 select
-  id as organization_id,
+  workos_organization.id as organization_id,
   name as organization_name,
   d ->> 'domain' as domain,
   d ->> 'id' as domain_id
@@ -59,10 +83,23 @@ where
   name = 'test';
 ```
 
+```sql+sqlite
+select
+  workos_organization.id as organization_id,
+  name as organization_name,
+  json_extract(d.value, '$.domain') as domain,
+  json_extract(d.value, '$.id') as domain_id
+from
+  workos_organization,
+  json_each(domains) as d
+where
+  name = 'test';
+```
+
 ### List organizations created in the last 30 days
 Discover the organizations that have been established in the past month. This is useful to keep track of new additions and ensure all recent organizations are accounted for.
 
-```sql
+```sql+postgres
 select
   id,
   name,
@@ -73,4 +110,17 @@ from
   workos_organization
 where
   created_at >= now() - interval '30' day;
+```
+
+```sql+sqlite
+select
+  id,
+  name,
+  allow_profiles_outside_organization,
+  created_at,
+  updated_at
+from
+  workos_organization
+where
+  created_at >= datetime('now', '-30 day');
 ```

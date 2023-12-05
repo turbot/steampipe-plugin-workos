@@ -16,7 +16,21 @@ The `workos_user` table provides insights into user details within WorkOS. As a 
 ### Basic info
 Explore the user profiles within your organization to gain insights into their status and creation date. This can help in assessing the user activity and managing the user database effectively.
 
-```sql
+```sql+postgres
+select
+  id,
+  user_name,
+  state,
+  directory_id,
+  organization_id,
+  created_at,
+  first_name,
+  last_name
+from
+  workos_user;
+```
+
+```sql+sqlite
 select
   id,
   user_name,
@@ -33,7 +47,23 @@ from
 ### List suspended users
 Identify users whose accounts are currently suspended. This is useful for account management and to ensure that any unexpected or unauthorized suspensions are immediately addressed.
 
-```sql
+```sql+postgres
+select
+  id,
+  user_name,
+  state,
+  directory_id,
+  organization_id,
+  created_at,
+  first_name,
+  last_name
+from
+  workos_user
+where
+  state = 'suspended';
+```
+
+```sql+sqlite
 select
   id,
   user_name,
@@ -52,9 +82,9 @@ where
 ### List users of a particular group
 Explore which users belong to a specific group, allowing for efficient management and organization of user access and permissions. This is particularly beneficial in large organizations where grouping users can simplify administrative tasks.
 
-```sql
+```sql+postgres
 select
-  id,
+  workos_user.id,
   user_name,
   state,
   directory_id,
@@ -69,10 +99,45 @@ where
   g ->> 'Name' = 'test';
 ```
 
+```sql+sqlite
+select
+  workos_user.id,
+  user_name,
+  state,
+  directory_id,
+  organization_id,
+  created_at,
+  first_name,
+  last_name
+from
+  workos_user,
+  json_each(groups) as g
+where
+  json_extract(g.value, '$.Name') = 'test';
+```
+
 ### List users of a particular organization
 Explore which users belong to a specific organization, gaining insights into their user ID, username, and other relevant details. This can be useful for managing user access and understanding user distribution across different organizations.
 
-```sql
+```sql+postgres
+select
+  u.id as user_id,
+  u.user_name,
+  u.state,
+  u.directory_id,
+  u.organization_id,
+  u.created_at,
+  u.first_name,
+  u.last_name
+from
+  workos_user as u,
+  workos_organization as o
+where
+  u.organization_id = o.id
+  and o.name = 'test';
+```
+
+```sql+sqlite
 select
   u.id as user_id,
   u.user_name,
@@ -93,7 +158,25 @@ where
 ### List users of a particular directory
 Explore which users are associated with a specific directory to manage access and permissions efficiently. This is particularly useful for administrators seeking to maintain security and organization within their system.
 
-```sql
+```sql+postgres
+select
+  u.id as user_id,
+  u.user_name,
+  u.state,
+  u.directory_id,
+  u.organization_id,
+  u.created_at,
+  u.first_name,
+  u.last_name
+from
+  workos_user as u,
+  workos_directory as d
+where
+  u.directory_id = d.id
+  and d.name = 'test';
+```
+
+```sql+sqlite
 select
   u.id as user_id,
   u.user_name,

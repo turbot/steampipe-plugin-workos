@@ -16,7 +16,19 @@ The `workos_directory` table provides insights into directories within WorkOS. A
 ### Basic info
 Explore which directories are active within your organization, when they were created, and their associated domain details. This can be beneficial for understanding the structure and timeline of your organizational directories.
 
-```sql
+```sql+postgres
+select
+  id,
+  name,
+  state,
+  organization_id,
+  created_at,
+  domain
+from
+  workos_directory;
+```
+
+```sql+sqlite
 select
   id,
   name,
@@ -31,7 +43,23 @@ from
 ### List directories of a particular organization
 Determine the areas in which specific organizational directories are located and when they were created. This is particularly useful for tracking and managing directories within a certain organization.
 
-```sql
+```sql+postgres
+select
+  d.id as directory_id,
+  d.name as directory_name,
+  d.state,
+  d.organization_id,
+  d.created_at,
+  d.domain
+from
+  workos_directory as d,
+  workos_organization as o
+where
+  d.organization_id = o.id
+  and o.name = 'test';
+```
+
+```sql+sqlite
 select
   d.id as directory_id,
   d.name as directory_name,
@@ -50,7 +78,7 @@ where
 ### List unlinked directories
 Discover the segments that contain unlinked directories to maintain data integrity and ensure all directories are properly connected. This is beneficial in identifying potential issues that could affect data accessibility and organization.
 
-```sql
+```sql+postgres
 select
   id,
   name,
@@ -64,10 +92,44 @@ where
   state = 'unlinked';
 ```
 
+```sql+sqlite
+The PostgreSQL query provided does not use any PostgreSQL-specific functions or data types, so it can be used as it is in SQLite.
+
+Here is the SQLite query:
+
+```sql
+select
+  id,
+  name,
+  state,
+  organization_id,
+  created_at,
+  domain
+from
+  workos_directory
+where
+  state = 'unlinked';
+```
+```
+
 ### List gsuite directories
 Explore the Gsuite directories in your organization to understand their current state and creation date. This can be useful for auditing purposes or to manage the directories more effectively.
 
-```sql
+```sql+postgres
+select
+  id,
+  name,
+  state,
+  organization_id,
+  created_at,
+  domain
+from
+  workos_directory
+where
+  type = 'gsuite directory';
+```
+
+```sql+sqlite
 select
   id,
   name,
@@ -84,7 +146,7 @@ where
 ### List directories created in the last 30 days
 Explore recent organizational changes by identifying directories that were established within the last month. This allows for a timely review and management of new additions to the system.
 
-```sql
+```sql+postgres
 select
   id,
   name,
@@ -96,4 +158,18 @@ from
   workos_directory
 where
   created_at >= now() - interval '30' day;
+```
+
+```sql+sqlite
+select
+  id,
+  name,
+  state,
+  organization_id,
+  created_at,
+  domain
+from
+  workos_directory
+where
+  created_at >= datetime('now', '-30 day');
 ```
