@@ -8,6 +8,7 @@ short_name: "workos"
 description: "Steampipe plugin to query directories, groups and more from WorkOS."
 og_description: "Query WorkOS with SQL! Open source CLI. No DB required."
 og_image: "/images/plugins/turbot/workos-social-graphic.png"
+engines: ["steampipe", "sqlite", "postgres", "export"]
 ---
 
 # WorkOS + Steampipe
