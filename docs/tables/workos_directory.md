@@ -93,11 +93,6 @@ where
 ```
 
 ```sql+sqlite
-The PostgreSQL query provided does not use any PostgreSQL-specific functions or data types, so it can be used as it is in SQLite.
-
-Here is the SQLite query:
-
-```sql
 select
   id,
   name,
@@ -109,7 +104,6 @@ from
   workos_directory
 where
   state = 'unlinked';
-```
 ```
 
 ### List gsuite directories
