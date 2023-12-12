@@ -8,13 +8,14 @@ short_name: "workos"
 description: "Steampipe plugin to query directories, groups and more from WorkOS."
 og_description: "Query WorkOS with SQL! Open source CLI. No DB required."
 og_image: "/images/plugins/turbot/workos-social-graphic.png"
+engines: ["steampipe", "sqlite", "postgres", "export"]
 ---
 
 # WorkOS + Steampipe
 
 [WorkOS](https://workos.com/) is a modern API platform that empowers any developer to quickly build and ship enterprise features.
 
-[Steampipe](https://steampipe.io) is an open source CLI to instantly query cloud APIs using SQL.
+[Steampipe](https://steampipe.io) is an open-source zero-ETL engine to instantly query cloud APIs using SQL.
 
 List your WorkOS organizations:
 
@@ -81,7 +82,4 @@ Alternatively, you can also use the standard WorkOS environment variables to obt
 export WORKOS_API_KEY=sk_test_a2V5XzAxR1g1QjNDRTFCU1NYSEhZMktINjVWTUFSLHBUSm1pWGpVMnV6dDNK
 ```
 
-## Get involved
 
-- Open source: https://github.com/turbot/steampipe-plugin-workos
-- Community: [Join #steampipe on Slack →](https://turbot.com/community/join)

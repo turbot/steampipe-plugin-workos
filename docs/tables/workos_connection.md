@@ -1,12 +1,34 @@
-# Table: workos_connection
+---
+title: "Steampipe Table: workos_connection - Query WorkOS Connections using SQL"
+description: "Allows users to query WorkOS Connections, which are used to configure and manage Single Sign-On (SSO) connections to identity providers."
+---
 
-A Connection represents the relationship between WorkOS and any collection of application users. This collection of application users may include personal or enterprise Identity Providers, or passwordless authentication methods like Magic Link. As a layer of abstraction, a WorkOS Connection rests between an application and its users, separating an application from the implementation details required by specific standards like OAuth 2.0 and SAML.
+# Table: workos_connection - Query WorkOS Connections using SQL
+
+WorkOS Connections are a service within WorkOS that allows administrators to configure and manage Single Sign-On (SSO) connections to various identity providers. It provides a centralized way to set up and manage SSO connections, streamlining the process of integrating SSO into your application. WorkOS Connections help you leverage existing enterprise identity platforms and take appropriate actions when predefined conditions are met.
+
+## Table Usage Guide
+
+The `workos_connection` table provides insights into SSO connections within WorkOS. As a system administrator or developer, explore connection-specific details through this table, including the connection type, domain, status, and associated metadata. Utilize it to uncover information about connections, such as those with specific identity providers, the status of each connection, and the verification of connection details.
 
 ## Examples
 
 ### Basic info
+Explore which connections are active within your organization by identifying the specific instances and their creation dates. This can help assess the overall usage and manage resources effectively.
 
-```sql
+```sql+postgres
+select
+  id,
+  name,
+  state,
+  organization_id,
+  created_at,
+  connection_type
+from
+  workos_connection;
+```
+
+```sql+sqlite
 select
   id,
   name,
@@ -19,8 +41,23 @@ from
 ```
 
 ### List inactive connections
+Determine the areas in which your WorkOS connections are inactive. This can help you manage resources more efficiently by identifying unused connections and potentially reassigning them.
 
-```sql
+```sql+postgres
+select
+  id,
+  name,
+  state,
+  organization_id,
+  created_at,
+  connection_type
+from
+  workos_connection
+where
+  state = 'inactive';
+```
+
+```sql+sqlite
 select
   id,
   name,
@@ -35,8 +72,9 @@ where
 ```
 
 ### List connections of a particular organization
+Explore which connections are associated with a specific organization to better manage and monitor your organizational resources. This can be particularly useful in identifying potential bottlenecks or inefficiencies within your organization's network.
 
-```sql
+```sql+postgres
 select
   c.id as connection_id,
   c.name as connection_name,
@@ -52,9 +90,42 @@ where
   and o.name = 'test';
 ```
 
-### List azure based connections
+```sql+sqlite
+select
+  c.id as connection_id,
+  c.name as connection_name,
+  c.state,
+  c.organization_id,
+  c.created_at,
+  c.connection_type
+from
+  workos_connection as c
+join
+  workos_organization as o
+on
+  c.organization_id = o.id
+where
+  o.name = 'test';
+```
 
-```sql
+### List azure based connections
+Explore which connections are based on Azure within your organization. This can be useful for assessing the prevalence and usage of Azure services in your network.
+
+```sql+postgres
+select
+  id,
+  name,
+  state,
+  organization_id,
+  created_at,
+  connection_type
+from
+  workos_connection
+where
+  connection_type like 'Azure%';
+```
+
+```sql+sqlite
 select
   id,
   name,
@@ -69,8 +140,9 @@ where
 ```
 
 ### List connections created in the last 30 days
+Discover the connections that were established in the recent month. This is useful for monitoring recent activity and understanding your organization's interaction patterns.
 
-```sql
+```sql+postgres
 select
   id,
   name,
@@ -82,4 +154,18 @@ from
   workos_connection
 where
   created_at >= now() - interval '30' day;
+```
+
+```sql+sqlite
+select
+  id,
+  name,
+  state,
+  organization_id,
+  created_at,
+  connection_type
+from
+  workos_connection
+where
+  created_at >= datetime('now','-30 day');
 ```
