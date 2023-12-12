@@ -15,7 +15,7 @@ engines: ["steampipe", "sqlite", "postgres", "export"]
 
 [WorkOS](https://workos.com/) is a modern API platform that empowers any developer to quickly build and ship enterprise features.
 
-[Steampipe](https://steampipe.io) is an open source CLI to instantly query cloud APIs using SQL.
+[Steampipe](https://steampipe.io) is an open-source zero-ETL engine to instantly query cloud APIs using SQL.
 
 List your WorkOS organizations:
 
