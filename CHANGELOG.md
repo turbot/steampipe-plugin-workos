@@ -2,8 +2,8 @@
 
 _Dependencies_
 
-- Recompiled plugin with Go version `1.23.1`. ([#](https://github.com/turbot/steampipe-plugin-workos/pull/))
-- Recompiled plugin with [steampipe-plugin-sdk v5.11.5](https://github.com/turbot/steampipe-plugin-sdk/blob/v5.11.5/CHANGELOG.md#v5115-2025-03-31) that addresses critical and high vulnerabilities in dependent packages. ([#](https://github.com/turbot/steampipe-plugin-workos/pull/))
+- Recompiled plugin with Go version `1.23.1`.
+- Recompiled plugin with [steampipe-plugin-sdk v5.11.5](https://github.com/turbot/steampipe-plugin-sdk/blob/v5.11.5/CHANGELOG.md#v5115-2025-03-31) that addresses critical and high vulnerabilities in dependent packages.
 
 ## v1.0.0 [2024-10-22]
 
