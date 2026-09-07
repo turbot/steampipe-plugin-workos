@@ -4,7 +4,7 @@ go 1.26.0
 
 require (
 	github.com/turbot/go-kit v1.1.0
-	github.com/turbot/steampipe-plugin-sdk/v5 v5.14.0
+	github.com/turbot/steampipe-plugin-sdk/v5 v5.14.1
 	github.com/workos/workos-go/v2 v2.1.0
 )
 
