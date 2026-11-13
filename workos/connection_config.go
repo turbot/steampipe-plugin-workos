@@ -6,7 +6,7 @@ import (
 	"os"
 
 	"github.com/turbot/go-kit/types"
-	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
+	"github.com/turbot/steampipe-plugin-sdk/v6/plugin"
 )
 
 type workosConfig struct {
@@ -19,10 +19,10 @@ func ConfigInstance() interface{} {
 
 // GetConfig :: retrieve and cast connection config from query data
 func GetConfig(connection *plugin.Connection) workosConfig {
-	if connection == nil || connection.Config == nil {
+	if connection == nil || connection.GetConfig() == nil {
 		return workosConfig{}
 	}
-	config, _ := connection.Config.(workosConfig)
+	config, _ := connection.GetConfig().(workosConfig)
 	return config
 }
 
@@ -39,5 +39,5 @@ func getAPIKey(ctx context.Context, d *plugin.QueryData) (*string, error) {
 		return types.String(apiKey), nil
 	}
 
-	return nil, errors.New("'api_key' must be set in the connection configuration. Edit your connection configuration file and then restart Steampipe.")
+	return nil, errors.New("'api_key' must be set in the connection configuration. Edit your connection configuration file and then restart Steampipe")
 }
